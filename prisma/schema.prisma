@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ProjectStatus {
+  LIVE
+  IN_DEVELOPMENT
+}
+
+model Project {
+  id          String        @id @default(cuid())
+  slug        String        @unique
+  name        String
+  description String
+  techTags    String[]
+  status      ProjectStatus @default(IN_DEVELOPMENT)
+  liveUrl     String?
+  repoUrl     String?
+  order       Int           @default(0)
+  createdAt   DateTime      @default(now())
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+}

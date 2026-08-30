@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #0a0c0f;
+  --surface: #12151a;
+  --surface-2: #171b21;
+  --line: rgba(236, 233, 226, 0.08);
+  --line-strong: rgba(236, 233, 226, 0.14);
+  --text: #ece9e2;
+  --text-muted: #8d9096;
+  --brass: #c99a3e;
+  --brass-bright: #e0b459;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-text: var(--text);
+  --color-muted: var(--text-muted);
+  --color-brass: var(--brass);
+  --color-brass-bright: var(--brass-bright);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+html {
+  background-color: var(--ink);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  background-color: var(--ink);
+  color: var(--text);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--brass);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ink);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(236, 233, 226, 0.14);
+  border: 2px solid var(--ink);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 154, 62, 0.6);
+}
+
+.fluid-hero {
+  font-size: clamp(3.25rem, 10vw + 0.5rem, 8rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+.fluid-h2 {
+  font-size: clamp(1.875rem, 1.2rem + 3vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
