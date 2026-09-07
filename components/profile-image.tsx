@@ -39,11 +39,11 @@ export function ProfileImage({ size = "sm", priority = false }: { size?: SizeKey
         focusable="false"
       >
         <rect
-          x="-4"
-          y="-4"
-          width="108"
-          height="108"
-          rx="18"
+          x="0"
+          y="0"
+          width="100"
+          height="100"
+          rx="3"
           pathLength={100}
           fill="none"
           strokeWidth="2"
