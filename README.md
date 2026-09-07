@@ -45,20 +45,36 @@ npm run dev        # http://localhost:3000
 ## Database (optional)
 
 The site builds, runs, and deploys with **no database** — the Projects section falls
-back to `lib/seed-projects.ts` when `DATABASE_URL` is unset or unreachable.
+back to `lib/seed-projects.ts` when `DATABASE_URL` is unset or unreachable, and contact
+messages are emailed without storing a copy.
 
-To enable the real backend:
+To enable the real backend (project data from the DB + contact-message backups):
 
-1. Create a PostgreSQL database (local, Neon, or Supabase).
+1. Create a PostgreSQL database (local, Neon, or Vercel Postgres).
 2. Copy `.env.example` to `.env` and set `DATABASE_URL`.
 3. Apply the schema and seed:
    ```bash
-   npm run db:migrate   # generates the initial migration (choose a name like "init")
-   npm run db:seed      # loads PixToPrompt (LIVE) + Next project (in development)
+   npm run db:migrate   # creates the initial migration, then applies it
+   npm run db:seed      # loads PixToPrompt (LIVE) + the other projects
    ```
 4. Restart `npm run dev`. Adding a project later = insert a row, no markup changes.
 
 `prisma/seed.mjs` shows the shape of the data expected by `lib/projects.ts`.
+
+### Production (Vercel)
+
+1. In **Vercel → Settings → Environment Variables**, add `DATABASE_URL` (with the `?sslmode=require`
+   suffix if using Neon/Vercel Postgres).
+2. Run the migration and seed against the production database once (locally or a one-off
+   `vercel run` / CI step):
+   ```bash
+   npm run db:deploy   # = prisma migrate deploy && prisma db seed
+   ```
+3. Redeploy (or push). The `postinstall` hook generates the Prisma client; the app reads
+   `DATABASE_URL` at runtime and falls back to seed data if it is unset or unreachable.
+4. Contact-message backups: each submission is stored in the `ContactMessage` table (best
+   effort) **in addition to** the email sent via Resend. Verify persistence from a
+   Postgres client (e.g. Neon console or `prisma studio`).
 
 ## Deploy to Vercel
 
