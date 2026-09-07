@@ -63,8 +63,14 @@ To enable the real backend:
 ## Deploy to Vercel
 
 1. Push the repo to GitHub and import it in Vercel.
-2. Add environment variables: `DATABASE_URL` and (optional) `NEXT_PUBLIC_SITE_URL`.
-3. Deploy. The `postinstall` hook generates the Prisma client automatically.
+2. Add these environment variables in **Vercel → Project → Settings → Environment Variables**:
+   - `RESEND_API_KEY` — **required** for the contact form to send email (from https://resend.com).
+   - `CONTACT_FROM` — the verified sender address, e.g. `contact@seyha.dev`. If unset, the
+     sandbox sender `onboarding@resend.dev` is used, which only delivers to your own Resend
+     account email — verify a domain in Resend and set this for production.
+   - `DATABASE_URL` — optional; project data falls back to bundled seed data without it.
+   - `NEXT_PUBLIC_SITE_URL` — optional; feeds canonical/OpenGraph URLs.
+3. Deploy (or push to trigger a redeploy). The `postinstall` hook generates the Prisma client.
 4. Run the migration against your production database once:
    ```bash
    npx prisma migrate deploy
@@ -75,6 +81,8 @@ To enable the real backend:
      -H "Content-Type: application/json" \
      -d '{"name":"Ada","email":"ada@example.com","message":"Hello from curl"}'
    ```
+   A `201/200` with `{"success":true}` means Resend accepted the message for delivery — but make
+   sure the **from** address is a verified sender, otherwise delivery is blocked or lands in spam.
 
 ## Project structure
 
