@@ -27,7 +27,7 @@ export function Hero() {
         className="mx-auto grid w-full max-w-[80%] flex-1 content-center px-4 sm:px-6"
         style={reduce ? undefined : { y: contentY, opacity: contentOpacity }}
       >
-        <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
+        <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-start lg:justify-between lg:gap-16">
           <div className="w-full max-w-2xl flex-1">
             <motion.div
               initial={reduce ? undefined : { opacity: 0, y: 12 }}
@@ -87,7 +87,7 @@ export function Hero() {
             initial={reduce ? undefined : { opacity: 0, scale: 0.92 }}
             animate={reduce ? undefined : { opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, ease: EASE, delay: 0.35 }}
-            className="flex-none"
+            className="flex-none lg:-mt-10"
           >
             <ProfileImage size="xl" priority />
           </motion.div>
