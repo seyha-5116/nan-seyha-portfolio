@@ -29,7 +29,7 @@ export function ProfileImage({ size = "sm", priority = false }: { size?: SizeKey
       aria-hidden="true"
       className={`relative flex ${style.fig} flex-none items-center justify-center`}
     >
-      <div className={`relative overflow-hidden rounded-full ${style.fig}`}>
+      <div className={`relative overflow-hidden ${style.fig}`}>
         {failed ? (
           <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-surface-2 to-ink">
             <span className={`font-display font-bold tracking-tight text-brass ${style.initials}`}>
@@ -43,7 +43,7 @@ export function ProfileImage({ size = "sm", priority = false }: { size?: SizeKey
             fill
             priority={priority}
             sizes={size === "xl" ? "24rem" : size === "lg" ? "18rem" : "11rem"}
-            style={{ objectFit: "cover", objectPosition: "center 22%" }}
+            style={{ objectFit: "contain", objectPosition: "center" }}
             className="transition-transform duration-700 ease-out hover:scale-105"
             onError={() => setFailed(true)}
           />
