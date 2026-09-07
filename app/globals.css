@@ -128,37 +128,3 @@ body {
     will-change: transform;
   }
 }
-
-.profile-scan {
-  position: relative;
-  border-radius: 1rem;
-}
-
-.profile-scan-rect {
-  stroke: var(--brass-bright);
-  stroke-dasharray: 16 84;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.profile-scan:hover .profile-scan-rect,
-.profile-scan:focus-visible .profile-scan-rect {
-  opacity: 1;
-  animation: profile-scan-travel 3s linear infinite;
-}
-
-@keyframes profile-scan-travel {
-  to {
-    stroke-dashoffset: -100;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .profile-scan:hover .profile-scan-rect,
-  .profile-scan:focus-visible .profile-scan-rect {
-    animation: none;
-    stroke-dasharray: 100;
-    stroke-width: 1;
-    opacity: 1;
-  }
-}

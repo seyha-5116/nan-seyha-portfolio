@@ -3,7 +3,7 @@ import { ArrowLeftIcon, ArrowRightIcon } from "@/components/icons";
 
 export default function NotFound() {
   return (
-    <div className="mx-auto flex w-full max-w-[80%] flex-1 flex-col items-center justify-center px-4 pb-24 pt-40 text-center sm:px-6 sm:pt-48">
+    <div className="mx-auto flex w-full max-w-[1120px] flex-1 flex-col items-center justify-center px-4 pb-24 pt-40 text-center sm:px-6 sm:pt-48">
       <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-brass">Error 404</p>
       <h1 className="fluid-h2 mt-6 font-display font-bold text-text">
         Page not <span className="text-brass">found</span>

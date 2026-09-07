@@ -5,7 +5,7 @@ export function Footer() {
 
   return (
     <footer className="relative z-10 border-t border-line">
-      <div className="mx-auto flex w-full max-w-[80%] flex-col gap-4 px-4 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+      <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-4 px-4 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <p className="font-mono text-xs text-muted">
           © {year} Nan Seyha <span className="text-line-strong">—</span> Built with Next.js
         </p>

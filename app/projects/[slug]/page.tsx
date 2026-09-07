@@ -40,7 +40,7 @@ export default async function ProjectPage({
   const live = project.status === "LIVE";
 
   return (
-    <div className="mx-auto w-full max-w-[80%] px-4 pb-24 pt-32 sm:px-6 sm:pb-32">
+    <div className="mx-auto w-full max-w-[1120px] px-4 pb-24 pt-32 sm:px-6 sm:pb-32">
       <Link
         href="/#projects"
         className="inline-flex items-center gap-2 font-mono text-xs tracking-widest text-muted transition-colors hover:text-brass"
@@ -74,7 +74,7 @@ export default async function ProjectPage({
               src={project.image}
               alt={`${project.name} preview`}
               fill
-              sizes="(min-width: 1024px) 80vw, 100vw"
+              sizes="(min-width: 1024px) 1120px, 100vw"
               priority
               style={{ filter: "saturate(0.85)" }}
               className="object-cover"

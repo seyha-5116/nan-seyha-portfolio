@@ -54,7 +54,7 @@ export function Header() {
           : "border-b border-transparent"
       }`}
     >
-      <div className="mx-auto flex h-16 w-full max-w-[80%] items-center justify-between px-4 sm:px-6">
+      <div className="mx-auto flex h-16 w-full max-w-[1120px] items-center justify-between px-4 sm:px-6">
         <a href="#top" className="group flex items-center gap-2.5 font-display text-sm font-semibold tracking-[0.14em] text-text">
           <span
             aria-hidden="true"

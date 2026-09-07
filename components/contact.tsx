@@ -50,7 +50,7 @@ export function Contact() {
   return (
     <section id="contact" className="scroll-mt-24">
       <SectionDivider />
-      <div className="mx-auto w-full max-w-[80%] px-4 py-24 sm:px-6 sm:py-32">
+      <div className="mx-auto w-full max-w-[1120px] px-4 py-24 sm:px-6 sm:py-32">
         <Reveal>
           <SectionHeading index="05" label="Contact" />
         </Reveal>
