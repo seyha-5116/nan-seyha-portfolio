@@ -50,7 +50,7 @@ export function ProfileImage({ size = "sm", priority = false }: { size?: SizeKey
       </svg>
 
       <div
-        className={`relative overflow-hidden rounded-2xl bg-surface-2 ${style.fig}`}
+        className={`relative overflow-hidden rounded-2xl ${style.fig}`}
       >
         {!failed ? (
           <Image
