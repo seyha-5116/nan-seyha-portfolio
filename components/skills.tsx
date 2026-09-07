@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "@/components/reveal";
 import { TechIcon } from "@/components/tech-icons";
@@ -58,9 +59,39 @@ export function Skills() {
 
 function SkillCard({ panel, panelIndex }: { panel: SkillPanel; panelIndex: number }) {
   const reduce = useReducedMotion();
+  const [pressed, setPressed] = useState(false);
+  const releaseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(
+    () => () => {
+      if (releaseTimer.current) clearTimeout(releaseTimer.current);
+    },
+    [],
+  );
+
+  const engage = () => {
+    if (reduce) return;
+    if (releaseTimer.current) clearTimeout(releaseTimer.current);
+    setPressed(true);
+  };
+
+  const disengage = () => {
+    if (reduce) return;
+    if (releaseTimer.current) clearTimeout(releaseTimer.current);
+    releaseTimer.current = setTimeout(() => setPressed(false), 600);
+  };
+
+  const touched = pressed;
 
   const card = (
-    <div className="group flex h-full flex-col rounded-2xl border border-line bg-surface p-7 transition-colors hover:border-brass/40">
+    <div
+      className={`group flex h-full flex-col rounded-2xl border bg-surface p-7 transition-colors ${
+        touched ? "border-brass/40" : "border-line hover:border-brass/40"
+      }`}
+      onPointerDown={engage}
+      onPointerUp={disengage}
+      onPointerLeave={disengage}
+    >
       <div className="flex items-center justify-between gap-4 border-b border-line pb-5">
         <h3 className="font-display text-lg font-semibold text-text">{panel.title}</h3>
         <span className="font-mono text-[11px] text-brass">{panel.index}</span>
@@ -68,7 +99,11 @@ function SkillCard({ panel, panelIndex }: { panel: SkillPanel; panelIndex: numbe
 
       <div aria-hidden="true" className="mt-5">
         <div className="relative h-[3px] w-full overflow-hidden rounded-full bg-line">
-          <span className="absolute inset-y-0 left-0 w-0 rounded-full bg-gradient-to-r from-brass to-brass-bright transition-all duration-500 ease-out group-hover:w-full" />
+          <span
+            className={`absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-brass to-brass-bright transition-all duration-500 ease-out ${
+              pressed ? "w-full" : "w-0 group-hover:w-full"
+            }`}
+          />
         </div>
         <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
           {panel.items.length} capabilities
