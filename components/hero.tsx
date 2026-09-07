@@ -89,7 +89,7 @@ export function Hero() {
             transition={{ duration: 0.7, ease: EASE, delay: 0.35 }}
             className="flex-none"
           >
-            <ProfileImage size="lg" priority />
+            <ProfileImage size="xl" priority />
           </motion.div>
         </div>
       </motion.div>

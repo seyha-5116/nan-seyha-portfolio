@@ -19,7 +19,7 @@ function fallbackInitialsPair(): [string, string] {
   return ["N", "S"];
 }
 
-type SizeKey = "sm" | "lg";
+type SizeKey = "sm" | "lg" | "xl";
 
 const SIZES: Record<SizeKey, { fig: string; initials: string }> = {
   sm: {
@@ -29,6 +29,10 @@ const SIZES: Record<SizeKey, { fig: string; initials: string }> = {
   lg: {
     fig: "h-64 w-64 sm:h-72 sm:w-72",
     initials: "text-6xl",
+  },
+  xl: {
+    fig: "h-72 w-72 sm:h-80 sm:w-80 lg:h-96 lg:w-96",
+    initials: "text-7xl",
   },
 };
 
@@ -52,7 +56,7 @@ export function ProfileImage({ size = "sm", priority = false }: { size?: SizeKey
             alt="Portrait of Nan Seyha"
             fill
             priority={priority}
-            sizes={size === "lg" ? "18rem" : "11rem"}
+            sizes={size === "xl" ? "24rem" : size === "lg" ? "18rem" : "11rem"}
             style={{ objectFit: "cover", objectPosition: "center 22%" }}
             className="transition-transform duration-700 ease-out hover:scale-105"
             onError={() => setFailed(true)}
