@@ -10,6 +10,7 @@ function toSummary(row: {
   status: string;
   liveUrl: string | null;
   repoUrl: string | null;
+  image: string | null;
 }): ProjectSummary {
   return {
     slug: row.slug,
@@ -19,6 +20,7 @@ function toSummary(row: {
     status: (row.status === "LIVE" ? "LIVE" : "IN_DEVELOPMENT") as ProjectStatus,
     liveUrl: row.liveUrl,
     repoUrl: row.repoUrl,
+    image: row.image,
   };
 }
 

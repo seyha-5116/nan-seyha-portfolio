@@ -16,6 +16,10 @@ export const contactSchema = z.object({
 
 export type ContactInput = z.infer<typeof contactSchema>;
 
+export function isHoneypotFilled(value: unknown): boolean {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
 export function parseContactForm(formData: FormData) {
   const raw = {
     name: String(formData.get("name") ?? ""),

@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeftIcon, ArrowUpRightIcon } from "@/components/icons";
+import { TechIcon } from "@/components/tech-icons";
 import { getProjectBySlug, getProjects } from "@/lib/projects";
 
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const projects = await getProjects();
@@ -46,10 +47,17 @@ export default async function ProjectPage({
         <ArrowLeftIcon className="text-sm" /> BACK TO PROJECTS
       </Link>
 
-      <div className="mt-12 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs tracking-widest text-muted">
-        <span className="text-brass">CASE STUDY</span>
-        <span aria-hidden="true" className="h-px w-8 bg-line" />
-        <span>{live ? "STATUS — LIVE" : "STATUS — IN DEVELOPMENT"}</span>
+      <div className="mt-12 flex flex-wrap items-center gap-3">
+        <span className="inline-flex h-8 items-center justify-center rounded-md border border-line-strong bg-surface-2 px-3 font-mono text-[11px] uppercase tracking-[0.2em] text-brass">
+          Case study
+        </span>
+        <span className="inline-flex h-8 items-center rounded-full border border-line-strong px-3.5 font-mono text-[11px] uppercase tracking-[0.15em] text-muted">
+          <span
+            aria-hidden="true"
+            className={`mr-2 h-1.5 w-1.5 rounded-full ${live ? "bg-[#4ade80]" : "bg-brass"}`}
+          />
+          {live ? "Live" : "In development"}
+        </span>
       </div>
 
       <h1 className="fluid-hero mt-6 font-display font-bold text-text">{project.name}</h1>
@@ -60,11 +68,12 @@ export default async function ProjectPage({
 
       <div className="mt-8 flex flex-wrap gap-2">
         {project.techTags.map((tag) => (
-          <span
+<span
             key={tag}
-            className="border border-line px-2.5 py-1 font-mono text-xs text-muted"
+            className="inline-flex items-center gap-1.5 rounded-full border border-line-strong bg-surface-2 px-3 py-1.5 font-mono text-xs text-muted"
           >
-            #{tag}
+            <TechIcon tech={tag} />
+            {tag}
           </span>
         ))}
       </div>
@@ -75,7 +84,7 @@ export default async function ProjectPage({
             href={project.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex h-12 items-center gap-2 bg-brass px-6 font-mono text-sm text-ink transition-colors hover:bg-brass-bright"
+            className="group inline-flex h-12 items-center gap-2 rounded-full bg-brass px-7 font-sans text-sm font-medium text-ink transition-colors hover:bg-brass-bright"
           >
             VISIT LIVE PROJECT
             <ArrowUpRightIcon className="text-base transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -86,14 +95,14 @@ export default async function ProjectPage({
             href={project.repoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex h-12 items-center gap-2 border border-line-strong px-6 font-mono text-sm text-text transition-colors hover:border-brass hover:text-brass"
+            className="inline-flex h-12 items-center gap-2 rounded-full border border-line-strong px-7 font-sans text-sm text-text transition-colors hover:border-brass hover:text-brass"
           >
             SOURCE CODE
           </a>
         ) : null}
         {!project.liveUrl && !project.repoUrl ? (
           <p className="font-mono text-xs leading-relaxed text-muted">
-            STATUS: IN ACTIVE DEVELOPMENT — DETAILS TO BE PUBLISHED WHEN IT SHIPS.
+            IN ACTIVE DEVELOPMENT — DETAILS TO BE PUBLISHED WHEN IT SHIPS.
           </p>
         ) : null}
       </div>

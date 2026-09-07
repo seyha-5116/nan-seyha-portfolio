@@ -48,17 +48,22 @@ export function Header() {
       initial={{ y: -16, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: EASE }}
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-300 ${
-        scrolled ? "border-b border-line-strong bg-ink/85 backdrop-blur-md" : "border-b border-transparent"
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "border-b border-line bg-ink/80 shadow-[0_8px_40px_-16px_rgba(0,0,0,0.6)] backdrop-blur-xl"
+          : "border-b border-transparent"
       }`}
     >
       <div className="mx-auto flex h-16 w-full max-w-[1120px] items-center justify-between px-4 sm:px-6">
-        <a href="#top" className="flex items-center gap-2 font-mono text-sm font-medium tracking-widest text-text">
+        <a href="#top" className="group flex items-center gap-2.5 font-display text-sm font-semibold tracking-[0.14em] text-text">
           <span
             aria-hidden="true"
-            className="h-2 w-2 rounded-full bg-brass shadow-[0_0_12px_rgba(201,154,62,0.8)]"
+            className="h-2 w-2 rounded-full bg-brass transition-transform duration-300 group-hover:scale-125"
           />
-          SEYHA//DEV
+          SEYHA
+          <span className="font-mono text-[10px] text-muted transition-colors group-hover:text-brass">
+            /DEV
+          </span>
         </a>
 
         <nav aria-label="Primary" className="hidden items-center gap-8 md:flex">
@@ -72,7 +77,7 @@ export function Header() {
         <div className="hidden md:block">
           <a
             href="#contact"
-            className="inline-flex h-9 items-center gap-1.5 border border-line-strong px-4 font-mono text-xs tracking-wide text-text transition-colors hover:border-brass hover:text-brass"
+            className="inline-flex h-9 items-center rounded-full bg-brass px-5 font-sans text-xs font-medium text-ink transition-colors hover:bg-brass-bright"
           >
             Get in touch
           </a>
@@ -84,7 +89,7 @@ export function Header() {
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? "Close menu" : "Open menu"}
-          className="inline-flex h-9 w-9 items-center justify-center border border-line-strong text-text md:hidden"
+          className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line-strong text-text md:hidden"
         >
           {open ? <CloseIcon className="text-base" /> : <MenuIcon className="text-base" />}
         </button>
@@ -99,7 +104,7 @@ export function Header() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 32, mass: 0.9 }}
-            className="overflow-hidden border-b border-line bg-ink/95 backdrop-blur-md md:hidden"
+            className="overflow-hidden border-b border-line bg-ink/95 backdrop-blur-xl md:hidden"
           >
             <div className="flex flex-col px-4 sm:px-6">
               {NAV_LINKS.map((link) => (
@@ -118,7 +123,7 @@ export function Header() {
               <a
                 href="#contact"
                 onClick={() => setOpen(false)}
-                className="mb-6 mt-2 inline-flex h-11 items-center justify-center border border-brass font-mono text-xs tracking-widest text-brass"
+                className="mb-6 mt-2 inline-flex h-11 items-center justify-center rounded-full bg-brass font-mono text-xs tracking-widest text-ink"
               >
                 GET IN TOUCH
               </a>
@@ -143,8 +148,8 @@ function NavUnderline({
     <motion.a
       href={href}
       whileHover="hover"
-      className={`inline-flex items-center py-2 font-mono text-xs tracking-wide transition-colors ${
-        active ? "text-brass" : "text-muted hover:text-text"
+      className={`inline-flex items-center py-2 font-sans text-sm transition-colors ${
+        active ? "text-text" : "text-muted hover:text-text"
       }`}
     >
       <span className="relative py-0.5">
@@ -154,7 +159,7 @@ function NavUnderline({
           animate={{ scaleX: active ? 1 : 0 }}
           initial={false}
           transition={{ duration: 0.3, ease: EASE }}
-          className="absolute inset-x-0 -bottom-0.5 h-px origin-left bg-brass"
+          className="absolute inset-x-0 -bottom-px h-[1.5px] origin-left rounded-full bg-brass"
         />
       </span>
     </motion.a>

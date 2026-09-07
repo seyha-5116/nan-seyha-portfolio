@@ -1,9 +1,10 @@
 "use client";
 
-import type { PointerEvent as ReactPointerEvent } from "react";
-import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
+import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRightIcon } from "@/components/icons";
 import { Reveal } from "@/components/reveal";
+import { TechIcon } from "@/components/tech-icons";
 import { SectionDivider } from "@/components/section-divider";
 import { SectionHeading } from "@/components/section";
 import type { ProjectSummary } from "@/lib/types";
@@ -14,14 +15,14 @@ export function Projects({ projects }: { projects: ProjectSummary[] }) {
       <SectionDivider />
       <div className="mx-auto w-full max-w-[1120px] px-4 py-24 sm:px-6 sm:py-32">
         <Reveal>
-          <SectionHeading index="03" label="Projects" />
+          <SectionHeading index="03" label="Selected work" />
         </Reveal>
 
         {projects.length > 0 ? (
-          <div className="grid gap-px border border-line bg-line sm:grid-cols-2">
+          <div className="grid gap-6 sm:grid-cols-2">
             {projects.map((project, index) => (
               <Reveal key={project.slug} delay={index * 0.08} className="h-full">
-                <ProjectCard project={project} index={index} />
+                <ProjectCard project={project} index={index} count={projects.length} />
               </Reveal>
             ))}
           </div>
@@ -37,141 +38,158 @@ export function Projects({ projects }: { projects: ProjectSummary[] }) {
   );
 }
 
-function ProjectCard({ project, index }: { project: ProjectSummary; index: number }) {
-  const reduce = useReducedMotion();
+function ProjectCard({
+  project,
+  index,
+  count,
+}: {
+  project: ProjectSummary;
+  index: number;
+  count: number;
+}) {
   const live = project.status === "LIVE";
 
-  const rx = useMotionValue(0);
-  const ry = useMotionValue(0);
-  const rotateX = useSpring(rx, { stiffness: 260, damping: 22 });
-  const rotateY = useSpring(ry, { stiffness: 260, damping: 22 });
-  const transform = useTransform([rotateX, rotateY], ([x, y]) => {
-    const rxDeg = x as number;
-    const ryDeg = y as number;
-    return `perspective(900px) rotateX(${rxDeg}deg) rotateY(${ryDeg}deg)`;
-  });
-
-  const onPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const px = (event.clientX - rect.left) / rect.width - 0.5;
-    const py = (event.clientY - rect.top) / rect.height - 0.5;
-    rx.set(py * 7);
-    ry.set(px * 7);
-  };
-
-  const resetTilt = () => {
-    rx.set(0);
-    ry.set(0);
-  };
-
   return (
-    <div className="group relative h-full">
-      <motion.div
-        className="h-full will-change-transform"
-        style={reduce ? undefined : { transform }}
-        {...(reduce ? {} : { onPointerMove, onPointerLeave: resetTilt })}
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface transition-all duration-300 hover:-translate-y-1 hover:border-brass/40 hover:shadow-[0_24px_60px_-32px_rgba(201,161,92,0.3)]">
+      <Link
+        href={`/projects/${project.slug}`}
+        aria-label={`${project.name} case study`}
+        className="block overflow-hidden"
       >
-        <div className="flex h-full flex-col bg-surface transition-colors duration-300">
-          <FigVisual index={index} live={live} />
-          <div className="flex flex-1 flex-col p-7">
-            <div className="flex items-center justify-between gap-4">
-              <span className="font-mono text-xs tracking-widest text-muted">
-                CASE <span className="text-brass">{String(index + 1).padStart(2, "0")}</span>
-              </span>
-              {live ? (
-                <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-brass">
-                  <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-brass" />
-                  Live
-                </span>
-              ) : (
-                <span className="border border-line px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
-                  In development
-                </span>
-              )}
-            </div>
+        <FigVisual index={index} live={live} image={project.image} name={project.name} count={count} />
+      </Link>
 
-            <h3 className="mt-5 font-display text-xl text-text">{project.name}</h3>
-            <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">{project.description}</p>
-
-            <div className="mt-6 flex flex-wrap gap-2">
-              {project.techTags.map((tag) => (
-                <span
-                  key={tag}
-                  className="border border-line px-2 py-0.5 font-mono text-[11px] text-muted"
-                >
-                  #{tag}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-7 flex items-center justify-between border-t border-line pt-4">
-              {live && project.liveUrl ? (
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 font-mono text-xs tracking-widest text-brass"
-                >
-                  View live
-                  <ArrowUpRightIcon className="text-sm transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                </a>
-              ) : (
-                <span className="font-mono text-xs text-muted">Status: in active development</span>
-              )}
-              {project.repoUrl ? (
-                <a
-                  href={project.repoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-mono text-xs text-muted transition-colors hover:text-brass"
-                >
-                  Source
-                </a>
-              ) : null}
-            </div>
-          </div>
+      <div className="flex flex-1 flex-col p-6 sm:p-7">
+        <div className="flex items-center justify-between gap-4">
+          <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+            <span className="text-brass">{String(index + 1).padStart(2, "0")}</span>
+            {" / "}
+            {String(count).padStart(2, "0")}
+          </span>
+          {live ? <LivePill /> : <DevPill />}
         </div>
-      </motion.div>
 
-      <Corners />
-    </div>
-  );
-}
+        <h3 className="mt-4 font-display text-xl font-semibold">
+          <Link
+            href={`/projects/${project.slug}`}
+            className="text-text transition-colors hover:text-brass"
+          >
+            {project.name}
+          </Link>
+        </h3>
+        <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">{project.description}</p>
 
-function FigVisual({ index, live }: { index: number; live: boolean }) {
-  return (
-    <div className="relative aspect-[16/7] overflow-hidden border-b border-line bg-surface-2">
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 opacity-80"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(236,233,226,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(236,233,226,0.05) 1px, transparent 1px)",
-          backgroundSize: "24px 24px",
-        }}
-      />
-      <div aria-hidden="true" className="absolute inset-0 flex items-center justify-center">
-        <span className="relative block h-1.5 w-1.5 rounded-full bg-brass shadow-[0_0_14px_rgba(201,154,62,0.9)] transition-transform duration-300 group-hover:scale-[2.2]" />
+        <div className="mt-6 flex flex-wrap gap-2">
+          {project.techTags.map((tag) => (
+            <span
+              key={tag}
+              className="inline-flex items-center gap-1.5 rounded-full border border-line-strong bg-surface-2 px-3 py-1 font-mono text-[11px] text-muted transition-colors hover:border-brass hover:text-brass"
+            >
+              <TechIcon tech={tag} size={12} />
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        <div className="mt-7 flex items-center justify-between border-t border-line pt-5">
+          {live && project.liveUrl ? (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 font-mono text-xs tracking-wide text-brass transition-colors hover:text-brass-bright"
+            >
+              View live
+              <ArrowUpRightIcon className="text-sm transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </a>
+          ) : (
+            <span className="font-mono text-xs text-muted">In active development</span>
+          )}
+          {project.repoUrl ? (
+            <a
+              href={project.repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-xs text-muted transition-colors hover:text-brass"
+            >
+              Source
+            </a>
+          ) : null}
+        </div>
       </div>
-      <span className="absolute left-3 top-3 font-mono text-[10px] tracking-[0.25em] text-muted">
-        SCHEMATIC // {String(index + 1).padStart(2, "0")}
-      </span>
-      <span className="absolute bottom-3 right-3 font-mono text-[10px] tracking-[0.25em] text-muted">
-        {live ? "PWR://ON" : "PWR://IDLE"}
-      </span>
-    </div>
+    </article>
   );
 }
 
-function Corners() {
-  const corner =
-    "pointer-events-none absolute h-3 w-3 border-transparent transition-colors duration-300 group-hover:border-brass";
+function LivePill() {
   return (
-    <>
-      <span aria-hidden="true" className={`-left-px -top-px border-l border-t ${corner}`} />
-      <span aria-hidden="true" className={`-right-px -top-px border-r border-t ${corner}`} />
-      <span aria-hidden="true" className={`-bottom-px -left-px border-b border-l ${corner}`} />
-      <span aria-hidden="true" className={`-bottom-px -right-px border-b border-r ${corner}`} />
-    </>
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-[#4ade80]/25 bg-[#4ade80]/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.15em] text-[#4ade80]">
+      <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[#4ade80]" />
+      Live
+    </span>
+  );
+}
+
+function DevPill() {
+  return (
+    <span className="inline-flex items-center rounded-full border border-line-strong bg-surface-2 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.15em] text-muted">
+      In development
+    </span>
+  );
+}
+
+function FigVisual({
+  index,
+  live,
+  image,
+  name,
+  count,
+}: {
+  index: number;
+  live: boolean;
+  image: string | null;
+  name: string;
+  count: number;
+}) {
+  return (
+    <div className="relative aspect-[16/7] overflow-hidden bg-surface-2">
+      {image ? (
+        <>
+          <Image
+            src={image}
+            alt={`${name} preview`}
+            fill
+            sizes="(min-width: 640px) 50vw, 100vw"
+            loading="lazy"
+            style={{ filter: "saturate(0.85)" }}
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-t from-black/45 to-transparent"
+          />
+        </>
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-surface-2 to-ink">
+          <span className="font-mono text-2xl font-semibold text-line-strong">
+            {name.slice(0, 2).toUpperCase()}
+          </span>
+        </div>
+      )}
+
+      <span className="absolute left-4 top-4 inline-flex items-center rounded-full border border-white/10 bg-black/45 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-white/80 backdrop-blur-sm">
+        Project {String(index + 1).padStart(2, "0")}
+        <span className="mx-1.5 text-white/40">/</span>
+        {String(count).padStart(2, "0")}
+      </span>
+
+      <span className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/45 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] backdrop-blur-sm">
+        <span
+          aria-hidden="true"
+          className={`h-1.5 w-1.5 rounded-full ${live ? "bg-[#4ade80]" : "bg-brass/60"}`}
+        />
+        <span className={live ? "text-[#4ade80]" : "text-brass"}>{live ? "Live" : "In dev"}</span>
+      </span>
+    </div>
   );
 }

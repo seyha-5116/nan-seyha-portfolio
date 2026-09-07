@@ -6,7 +6,7 @@ import { TerminalLine } from "@/components/terminal-line";
 const FACTS: Array<[string, string]> = [
   ["Based in", "Phnom Penh, Cambodia"],
   ["Focus", "Full-stack & AI tooling"],
-  ["Availability", "Open to freelance work"],
+  ["Availability", "Open to new work"],
   ["Reach", "Telegram / email"],
 ];
 
@@ -19,35 +19,39 @@ export function About() {
           <SectionHeading index="01" label="About" />
         </Reveal>
 
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal>
             <div className="space-y-4 text-base leading-relaxed text-muted">
-              <p className="text-text">
+              <p className="text-xl font-medium leading-snug text-text">
                 I&apos;m a full-stack developer who cares about the details most people never see —
-                clean architecture, honest UX, and code that holds up under real use. I build fast,
-                reliable web applications end to end.
+                clean architecture, honest UX, and code that holds up under real use.
               </p>
               <p>
-                My recent work sits at the intersection of web engineering and AI tooling, where
-                precision matters most. I believe great interfaces are functional first, and only
-                ever as complex as they need to be.
+                I build fast, reliable web applications end to end. My recent work sits at the
+                intersection of web engineering and AI tooling, where precision matters most.
+              </p>
+              <p>
+                I believe great interfaces are functional first, and only ever as complex as they
+                need to be.
               </p>
               <TerminalLine />
             </div>
           </Reveal>
 
           <Reveal delay={0.08}>
-            <dl className="border border-line">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {FACTS.map(([label, value]) => (
                 <div
                   key={label}
-                  className="flex items-baseline justify-between gap-6 border-b border-line px-6 py-5 last:border-b-0"
+                  className="rounded-2xl border border-line bg-surface p-6 transition-colors hover:border-line-strong"
                 >
-                  <dt className="font-mono text-xs uppercase tracking-[0.2em] text-muted">{label}</dt>
-                  <dd className="text-right text-sm text-text">{value}</dd>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
+                    {label}
+                  </p>
+                  <p className="mt-2.5 text-sm font-medium text-text">{value}</p>
                 </div>
               ))}
-            </dl>
+            </div>
           </Reveal>
         </div>
       </div>

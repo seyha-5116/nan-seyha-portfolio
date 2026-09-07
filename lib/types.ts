@@ -8,6 +8,7 @@ export interface ProjectSummary {
   status: ProjectStatus;
   liveUrl: string | null;
   repoUrl: string | null;
+  image: string | null;
 }
 
 export interface ContactFormState {
@@ -18,4 +19,7 @@ export interface ContactFormState {
     email?: string[];
     message?: string[];
   };
+  sentAt?: string;
+  name?: string;
+  message?: string;
 }

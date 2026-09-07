@@ -10,13 +10,13 @@ export function SubmitButton() {
       <button
         type="submit"
         disabled={pending}
-        className="inline-flex h-12 items-center justify-center gap-2 bg-brass px-6 font-mono text-sm text-ink transition-colors hover:bg-brass-bright disabled:cursor-not-allowed disabled:opacity-70"
+        className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-brass px-7 font-sans text-sm font-medium text-ink transition-colors hover:bg-brass-bright disabled:cursor-not-allowed disabled:opacity-70"
       >
         {pending ? "Sending…" : "Send message"}
       </button>
       {pending ? (
         <span className="font-mono text-xs text-muted" aria-hidden="true">
-          {"// transmitting…"}
+          Please wait…
         </span>
       ) : null}
     </div>

@@ -22,8 +22,10 @@ export function Reveal({
     return <Tag className={className}>{children}</Tag>;
   }
 
+  const MotionTag = motion[Tag];
+
   return (
-    <motion.div
+    <MotionTag
       className={className}
       initial={{ opacity: 0, y: distance }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -31,6 +33,6 @@ export function Reveal({
       transition={{ duration: 0.65, ease: EASE, delay }}
     >
       {children}
-    </motion.div>
+    </MotionTag>
   );
 }

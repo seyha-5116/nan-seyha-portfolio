@@ -6,35 +6,24 @@ import {
   useMotionTemplate,
   useMotionValue,
   useReducedMotion,
-  useScroll,
   useSpring,
-  useTransform,
 } from "motion/react";
 
-const GRID_IMAGE = [
-  "linear-gradient(to right, rgba(236,233,226,0.05) 1px, transparent 1px)",
-  "linear-gradient(to bottom, rgba(236,233,226,0.05) 1px, transparent 1px)",
-  "linear-gradient(to right, rgba(236,233,226,0.09) 1px, transparent 1px)",
-  "linear-gradient(to bottom, rgba(236,233,226,0.09) 1px, transparent 1px)",
-].join(", ");
+const NOISE = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
 
-const GRID_SIZE = "64px 64px, 64px 64px, 320px 320px, 320px 320px";
+const GRID = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cpath fill='none' stroke='%23c9a15c' stroke-opacity='0.5' stroke-width='0.75' d='M96 0H0V96'/%3E%3C/svg%3E")`;
 
-const GRID_MASK =
-  "linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.55) 38%, rgba(0,0,0,0.16) 78%, rgba(0,0,0,0) 100%)";
+const DUST = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 280 280'%3E%3Cg fill='%23c9a15c' fill-opacity='0.6'%3E%3Ccircle cx='32' cy='48' r='1'/%3E%3Ccircle cx='104' cy='12' r='1.4'/%3E%3Ccircle cx='176' cy='96' r='1'/%3E%3Ccircle cx='248' cy='40' r='1.2'/%3E%3Ccircle cx='64' cy='160' r='1'/%3E%3Ccircle cx='224' cy='184' r='1'/%3E%3Ccircle cx='128' cy='240' r='1.3'/%3E%3Ccircle cx='40' cy='248' r='1'/%3E%3Ccircle cx='256' cy='256' r='1'/%3E%3Ccircle cx='212' cy='128' r='0.9'/%3E%3Ccircle cx='88' cy='216' r='0.9'/%3E%3Ccircle cx='160' cy='272' r='1'/%3E%3C/g%3E%3C/svg%3E")`;
 
 export function BackgroundFX() {
   const reduce = useReducedMotion();
-  const { scrollY } = useScroll();
-  const gridY = useTransform(scrollY, (y) => y * 0.35);
-  const gridPosition = useMotionTemplate`0px ${gridY}px`;
+  const [pointerEnabled, setPointerEnabled] = useState(false);
 
-  const [glowVisible, setGlowVisible] = useState(false);
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const glowX = useSpring(mx, { stiffness: 140, damping: 24, mass: 0.5 });
-  const glowY = useSpring(my, { stiffness: 140, damping: 24, mass: 0.5 });
-  const glowBackground = useMotionTemplate`radial-gradient(620px circle at ${glowX}px ${glowY}px, rgba(201,154,62,0.14) 0%, rgba(201,154,62,0.05) 38%, rgba(201,154,62,0) 68%)`;
+  const glowX = useSpring(mx, { stiffness: 110, damping: 24, mass: 0.6 });
+  const glowY = useSpring(my, { stiffness: 110, damping: 24, mass: 0.6 });
+  const cursorLight = useMotionTemplate`radial-gradient(900px circle at ${glowX}px ${glowY}px, rgba(201,161,92,0.07) 0%, rgba(201,161,92,0.025) 38%, rgba(201,161,92,0) 68%)`;
 
   useEffect(() => {
     if (reduce) return;
@@ -42,7 +31,7 @@ export function BackgroundFX() {
 
     mx.set(window.innerWidth / 2);
     my.set(window.innerHeight / 3);
-    const frame = requestAnimationFrame(() => setGlowVisible(true));
+    const frame = requestAnimationFrame(() => setPointerEnabled(true));
 
     const onMove = (event: PointerEvent) => {
       mx.set(event.clientX);
@@ -58,56 +47,42 @@ export function BackgroundFX() {
 
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-      <motion.div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: GRID_IMAGE,
-          backgroundSize: GRID_SIZE,
-          backgroundPosition: reduce ? "0 0" : gridPosition,
-          maskImage: GRID_MASK,
-          WebkitMaskImage: GRID_MASK,
-        }}
+      {/* Base wash */}
+      <div className="absolute inset-0 bg-[radial-gradient(130%_95%_at_50%_-12%,#17171d_0%,#0d0d10_45%,#0a0a0c_100%)]" />
+
+      {/* Aurora — slow GPU-transformed drift layers */}
+      <div className="bg-sway-a absolute -top-[25%] left-[4%] h-[75vh] w-[60vw] rounded-full bg-[radial-gradient(closest-side,rgba(201,161,92,0.14),rgba(201,161,92,0))] blur-[120px]" />
+      <div className="bg-sway-b absolute -bottom-[30%] right-[-8%] h-[70vh] w-[55vw] rounded-full bg-[radial-gradient(closest-side,rgba(63,84,137,0.17),rgba(63,84,137,0))] blur-[140px]" />
+      <div className="bg-sway-c absolute top-[20%] left-[55%] h-[55vh] w-[45vw] rounded-full bg-[radial-gradient(closest-side,rgba(148,163,184,0.08),rgba(148,163,184,0))] blur-[150px]" />
+
+      {/* Soft spotlight cone rising from the top */}
+      <div className="absolute -top-[25%] left-1/2 h-[120vh] w-[150vw] -translate-x-1/2 bg-[conic-gradient(from_90deg_at_50%_0%,transparent_0deg,rgba(201,161,92,0.055)_12deg,transparent_24deg)]" />
+
+      {/* Fine grid texture, fading toward the bottom */}
+      <div
+        className="absolute inset-0 opacity-[0.045] [mask-image:linear-gradient(to_bottom,black,transparent_85%)]"
+        style={{ backgroundImage: GRID, backgroundSize: "96px 96px" }}
       />
-      {glowVisible ? (
-        <>
-          <motion.div
-            className="absolute inset-0 mix-blend-screen"
-            style={{ background: glowBackground }}
-          />
-          <motion.div
-            className="pointer-events-none absolute inset-y-0 w-px bg-brass mix-blend-screen"
-            style={{
-              left: glowX,
-              opacity: 0.28,
-              maskImage:
-                "linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)",
-              WebkitMaskImage:
-                "linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)",
-            }}
-          />
-          <motion.div
-            className="pointer-events-none absolute inset-x-0 h-px bg-brass mix-blend-screen"
-            style={{
-              top: glowY,
-              opacity: 0.28,
-              maskImage:
-                "linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)",
-              WebkitMaskImage:
-                "linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)",
-            }}
-          />
-        </>
+
+      {/* Sparse warm dust */}
+      <div
+        className="absolute inset-0 opacity-[0.09] [mask-image:radial-gradient(120%_90%_at_50%_30%,black,transparent_75%)]"
+        style={{ backgroundImage: DUST, backgroundSize: "280px 280px" }}
+      />
+
+      {/* Fine grain */}
+      <div
+        className="absolute inset-0 opacity-[0.035] mix-blend-overlay"
+        style={{ backgroundImage: NOISE, backgroundSize: "180px 180px" }}
+      />
+
+      {/* Subtle cursor light on precise pointers */}
+      {!reduce && pointerEnabled ? (
+        <motion.div className="absolute inset-0" style={{ background: cursorLight }} />
       ) : null}
 
-      <div
-        aria-hidden="true"
-        className="absolute inset-y-0 left-1/2 hidden w-px -translate-x-1/2 md:block"
-        style={{
-          backgroundColor: "rgba(236, 233, 226, 0.05)",
-          maskImage: GRID_MASK,
-          WebkitMaskImage: GRID_MASK,
-        }}
-      />
+      {/* Edge vignette for depth */}
+      <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_45%,transparent_55%,rgba(0,0,0,0.55)_100%)]" />
     </div>
   );
 }

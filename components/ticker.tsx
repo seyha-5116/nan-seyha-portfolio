@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
+import { TechIcon } from "@/components/tech-icons";
 
 const ITEMS = [
   "TypeScript",
@@ -24,11 +25,9 @@ export function Ticker() {
   const renderItem = (item: string, index: number) => (
     <span
       key={`${index}-${item}`}
-      className="mx-5 inline-flex items-center gap-5 font-mono text-xs uppercase tracking-[0.25em] text-muted"
+      className="mx-7 inline-flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-muted"
     >
-      <span aria-hidden="true" className="text-brass">
-        {"//"}
-      </span>
+      <TechIcon tech={item} size={15} className="opacity-80" />
       {item}
     </span>
   );

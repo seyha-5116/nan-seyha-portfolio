@@ -21,6 +21,7 @@ model Project {
   status      ProjectStatus @default(IN_DEVELOPMENT)
   liveUrl     String?
   repoUrl     String?
+  image       String?
   order       Int           @default(0)
   createdAt   DateTime      @default(now())
 }

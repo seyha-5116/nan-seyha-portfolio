@@ -1,7 +1,8 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "@/components/reveal";
+import { TechIcon } from "@/components/tech-icons";
 import { SectionDivider } from "@/components/section-divider";
 import { SectionHeading } from "@/components/section";
 import { EASE } from "@/lib/motion";
@@ -34,6 +35,8 @@ const SKILLS: Array<{ title: string; index: string; items: string[] }> = [
   },
 ];
 
+type SkillPanel = (typeof SKILLS)[number];
+
 export function Skills() {
   return (
     <section id="skills" className="scroll-mt-24">
@@ -43,36 +46,9 @@ export function Skills() {
           <SectionHeading index="02" label="Skills" />
         </Reveal>
 
-        <div className="grid gap-px border border-line bg-line md:grid-cols-3">
+        <div className="grid gap-5 md:grid-cols-3">
           {SKILLS.map((panel, panelIndex) => (
-            <Reveal key={panel.title} delay={panelIndex * 0.1} className="bg-surface p-8">
-              <p className="flex items-baseline justify-between border-b border-line pb-4 font-mono text-xs uppercase tracking-[0.2em] text-muted">
-                {panel.title}
-                <span className="text-brass">{panel.index}</span>
-              </p>
-
-              <div aria-hidden="true" className="mt-4">
-                <div className="relative h-px w-full bg-line">
-                  <motion.span
-                    className="absolute inset-0 origin-left bg-brass"
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1 }}
-                    viewport={{ once: true, amount: 0.8 }}
-                    transition={{ duration: 0.7, ease: EASE, delay: 0.2 + panelIndex * 0.1 }}
-                  />
-                </div>
-                <p className="mt-2 font-mono text-[10px] tracking-[0.2em] text-muted">
-                  {"// "}
-                  {panel.items.length} MODULES — STANDING BY
-                </p>
-              </div>
-
-              <ul className="mt-5 flex flex-wrap gap-2">
-                {panel.items.map((skill) => (
-                  <SkillTag key={skill}>{skill}</SkillTag>
-                ))}
-              </ul>
-            </Reveal>
+            <SkillCard key={panel.title} panel={panel} panelIndex={panelIndex} />
           ))}
         </div>
       </div>
@@ -80,14 +56,79 @@ export function Skills() {
   );
 }
 
-function SkillTag({ children }: { children: string }) {
+function SkillCard({ panel, panelIndex }: { panel: SkillPanel; panelIndex: number }) {
+  const reduce = useReducedMotion();
+
+  const card = (
+    <div className="group flex h-full flex-col rounded-2xl border border-line bg-surface p-7 transition-colors hover:border-brass/40">
+      <div className="flex items-center justify-between gap-4 border-b border-line pb-5">
+        <h3 className="font-display text-lg font-semibold text-text">{panel.title}</h3>
+        <span className="font-mono text-[11px] text-brass">{panel.index}</span>
+      </div>
+
+      <div aria-hidden="true" className="mt-5">
+        <div className="relative h-[3px] w-full overflow-hidden rounded-full bg-line">
+          <span className="absolute inset-y-0 left-0 w-0 rounded-full bg-gradient-to-r from-brass to-brass-bright transition-all duration-500 ease-out group-hover:w-full" />
+        </div>
+        <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
+          {panel.items.length} capabilities
+        </p>
+      </div>
+
+      <ul className="mt-5 flex flex-wrap gap-2">
+        {panel.items.map((skill, skillIndex) => (
+          <SkillTag key={skill} delay={0.35 + panelIndex * 0.12 + skillIndex * 0.05}>
+            {skill}
+          </SkillTag>
+        ))}
+      </ul>
+    </div>
+  );
+
+  if (reduce) {
+    return card;
+  }
+
+  return (
+    <motion.div
+      className="h-full"
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.6, ease: EASE, delay: panelIndex * 0.12 }}
+    >
+      {card}
+    </motion.div>
+  );
+}
+
+function SkillTag({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const reduce = useReducedMotion();
+
+  const content = (
+    <>
+      <TechIcon tech={String(children)} size={13} />
+      {children}
+    </>
+  );
+
+  const className =
+    "inline-flex items-center gap-2 rounded-full border border-line-strong bg-surface-2 px-3.5 py-1.5 font-mono text-xs text-text transition-colors hover:border-brass hover:text-brass";
+
+  if (reduce) {
+    return <li className={className}>{content}</li>;
+  }
+
   return (
     <motion.li
+      initial={{ opacity: 0, scale: 0.92 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true, amount: 0.5 }}
+      transition={{ duration: 0.32, ease: EASE, delay }}
       whileHover={{ y: -2 }}
-      transition={{ type: "spring", stiffness: 400, damping: 30 }}
-      className="border border-line-strong px-2.5 py-1 font-mono text-xs text-text transition-colors hover:border-brass hover:text-brass"
+      className={className}
     >
-      {children}
+      {content}
     </motion.li>
   );
 }

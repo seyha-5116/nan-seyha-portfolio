@@ -24,7 +24,7 @@ export function ScrollTop() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 12 }}
           transition={{ duration: 0.3 }}
-          className="fixed bottom-6 right-6 z-40 flex h-11 w-11 items-center justify-center border border-line-strong bg-ink/85 text-muted backdrop-blur-md transition-colors hover:border-brass hover:text-brass"
+          className="fixed bottom-6 right-6 z-40 flex h-11 w-11 items-center justify-center rounded-full border border-line-strong bg-ink/80 text-muted shadow-lg backdrop-blur-md transition-colors hover:border-brass hover:text-brass"
         >
           <ArrowUpIcon className="text-base" />
         </motion.button>
