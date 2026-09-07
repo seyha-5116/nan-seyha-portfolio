@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeftIcon, ArrowUpRightIcon } from "@/components/icons";
@@ -65,6 +66,32 @@ export default async function ProjectPage({
       <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
         {project.description}
       </p>
+
+      <div className="mt-10 overflow-hidden rounded-2xl border border-line bg-surface-2">
+        {project.image ? (
+          <div className="relative aspect-[16/7] w-full">
+            <Image
+              src={project.image}
+              alt={`${project.name} preview`}
+              fill
+              sizes="(min-width: 1024px) 1120px, 100vw"
+              priority
+              style={{ filter: "saturate(0.85)" }}
+              className="object-cover"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-t from-black/35 to-transparent"
+            />
+          </div>
+        ) : (
+          <div className="flex aspect-[16/7] w-full items-center justify-center bg-gradient-to-br from-surface-2 to-ink">
+            <span className="font-mono text-3xl font-semibold text-line-strong">
+              {project.name.slice(0, 2).toUpperCase()}
+            </span>
+          </div>
+        )}
+      </div>
 
       <div className="mt-8 flex flex-wrap gap-2">
         {project.techTags.map((tag) => (
