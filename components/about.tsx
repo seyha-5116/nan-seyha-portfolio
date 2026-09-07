@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/reveal";
+import { ProfileImage } from "@/components/profile-image";
 import { SectionDivider } from "@/components/section-divider";
 import { SectionHeading } from "@/components/section";
 import { TerminalLine } from "@/components/terminal-line";
@@ -39,18 +40,23 @@ export function About() {
           </Reveal>
 
           <Reveal delay={0.08}>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {FACTS.map(([label, value]) => (
-                <div
-                  key={label}
-                  className="rounded-2xl border border-line bg-surface p-6 transition-colors hover:border-line-strong"
-                >
-                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
-                    {label}
-                  </p>
-                  <p className="mt-2.5 text-sm font-medium text-text">{value}</p>
-                </div>
-              ))}
+            <div className="flex flex-col items-center gap-8 sm:flex-row sm:items-start sm:gap-10">
+              <div className="flex-none">
+                <ProfileImage size="lg" />
+              </div>
+              <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:flex-1">
+                {FACTS.map(([label, value]) => (
+                  <div
+                    key={label}
+                    className="rounded-2xl border border-line bg-surface p-6 transition-colors hover:border-line-strong"
+                  >
+                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
+                      {label}
+                    </p>
+                    <p className="mt-2.5 text-sm font-medium text-text">{value}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </Reveal>
         </div>
