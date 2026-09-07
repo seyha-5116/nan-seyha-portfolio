@@ -24,7 +24,7 @@ export function Hero() {
       className="flex min-h-svh flex-col justify-between pb-12 pt-32 sm:pb-14"
     >
       <motion.div
-        className="mx-auto grid w-full max-w-[1120px] flex-1 content-center px-4 sm:px-6"
+        className="mx-auto grid w-full max-w-[80%] flex-1 content-center px-4 sm:px-6"
         style={reduce ? undefined : { y: contentY, opacity: contentOpacity }}
       >
         <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
@@ -94,7 +94,7 @@ export function Hero() {
         </div>
       </motion.div>
 
-      <div className="mx-auto mt-24 w-full max-w-[1120px] px-4 sm:px-6">
+      <div className="mx-auto mt-24 w-full max-w-[80%] px-4 sm:px-6">
         <div className="flex flex-col gap-4 border-t border-line pt-5 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-8">
             <p className="font-mono text-xs tracking-widest text-muted">
