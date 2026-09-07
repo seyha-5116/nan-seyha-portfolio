@@ -33,18 +33,21 @@ export function ProfileImage({ size = "sm", priority = false }: { size?: SizeKey
     >
       <svg
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 h-full w-full"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        className="pointer-events-none absolute inset-0 h-full w-full overflow-visible"
         focusable="false"
       >
         <rect
-          x="1"
-          y="1"
-          width="calc(100% - 2px)"
-          height="calc(100% - 2px)"
-          rx="14"
+          x="-4"
+          y="-4"
+          width="108"
+          height="108"
+          rx="18"
           pathLength={100}
           fill="none"
           strokeWidth="2"
+          vectorEffect="non-scaling-stroke"
           className="profile-scan-rect"
         />
       </svg>
