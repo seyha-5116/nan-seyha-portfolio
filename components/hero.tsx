@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { Clock } from "@/components/clock";
 import { ArrowRightIcon, ChevronDownIcon } from "@/components/icons";
-import { ProfileImage } from "@/components/profile-image";
 import { EASE } from "@/lib/motion";
 
 export function Hero() {
@@ -27,71 +26,58 @@ export function Hero() {
         className="mx-auto grid w-full max-w-[1120px] flex-1 content-center px-4 sm:px-6"
         style={reduce ? undefined : { y: contentY, opacity: contentOpacity }}
       >
-        <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
-          <div className="w-full max-w-2xl flex-1">
-            <motion.div
-              initial={reduce ? undefined : { opacity: 0, y: 12 }}
-              animate={reduce ? undefined : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: EASE, delay: 0.05 }}
-              className="mb-5"
-            >
-              <RoleLine />
-            </motion.div>
+        <motion.div
+          initial={reduce ? undefined : { opacity: 0, y: 12 }}
+          animate={reduce ? undefined : { opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: EASE, delay: 0.05 }}
+          className="mb-5"
+        >
+          <RoleLine />
+        </motion.div>
 
-            <motion.div
-              initial={reduce ? undefined : { opacity: 0, y: 16 }}
-              animate={reduce ? undefined : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: EASE, delay: 0.18 }}
-            >
-              <AvailabilityBadge />
-            </motion.div>
+        <motion.div
+          initial={reduce ? undefined : { opacity: 0, y: 16 }}
+          animate={reduce ? undefined : { opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: EASE, delay: 0.18 }}
+        >
+          <AvailabilityBadge />
+        </motion.div>
 
-            <div className="mt-6">
-              <NameReveal />
-            </div>
-
-            <motion.p
-              initial={reduce ? undefined : { opacity: 0, y: 16 }}
-              animate={reduce ? undefined : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: EASE, delay: 0.5 }}
-              className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg"
-            >
-              I&apos;m a full-stack developer crafting precise, reliable web products — from
-              engineering-grade frontends to dependable backends and practical AI tooling. Every
-              element earns its place.
-            </motion.p>
-
-            <motion.div
-              initial={reduce ? undefined : { opacity: 0, y: 16 }}
-              animate={reduce ? undefined : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: EASE, delay: 0.62 }}
-              className="mt-10 flex flex-wrap items-center gap-3"
-            >
-              <a
-                href="#projects"
-                className="group inline-flex h-12 items-center gap-2 rounded-full bg-brass px-7 font-sans text-sm font-medium text-ink transition-colors hover:bg-brass-bright"
-              >
-                View projects
-                <ArrowRightIcon className="text-base transition-transform group-hover:translate-x-1" />
-              </a>
-              <a
-                href="#contact"
-                className="inline-flex h-12 items-center gap-2 rounded-full border border-line-strong px-7 font-sans text-sm text-text transition-colors hover:border-brass hover:text-brass"
-              >
-                Contact me
-              </a>
-            </motion.div>
-          </div>
-
-          <motion.div
-            initial={reduce ? undefined : { opacity: 0, scale: 0.92 }}
-            animate={reduce ? undefined : { opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, ease: EASE, delay: 0.35 }}
-            className="flex-none"
-          >
-            <ProfileImage size="xl" priority />
-          </motion.div>
+        <div className="mt-6">
+          <NameReveal />
         </div>
+
+        <motion.p
+          initial={reduce ? undefined : { opacity: 0, y: 16 }}
+          animate={reduce ? undefined : { opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: EASE, delay: 0.5 }}
+          className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg"
+        >
+          I&apos;m a full-stack developer crafting precise, reliable web products — from
+          engineering-grade frontends to dependable backends and practical AI tooling. Every
+          element earns its place.
+        </motion.p>
+
+        <motion.div
+          initial={reduce ? undefined : { opacity: 0, y: 16 }}
+          animate={reduce ? undefined : { opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: EASE, delay: 0.62 }}
+          className="mt-10 flex flex-wrap items-center gap-3"
+        >
+          <a
+            href="#projects"
+            className="group inline-flex h-12 items-center gap-2 rounded-full bg-brass px-7 font-sans text-sm font-medium text-ink transition-colors hover:bg-brass-bright"
+          >
+            View projects
+            <ArrowRightIcon className="text-base transition-transform group-hover:translate-x-1" />
+          </a>
+          <a
+            href="#contact"
+            className="inline-flex h-12 items-center gap-2 rounded-full border border-line-strong px-7 font-sans text-sm text-text transition-colors hover:border-brass hover:text-brass"
+          >
+            Contact me
+          </a>
+        </motion.div>
       </motion.div>
 
       <div className="mx-auto mt-24 w-full max-w-[1120px] px-4 sm:px-6">
