@@ -6,7 +6,7 @@ import { CloseIcon, MenuIcon } from "@/components/icons";
 import { EASE } from "@/lib/motion";
 import { NAV_LINKS } from "@/lib/site";
 
-const SECTION_IDS = ["top", "about", "skills", "projects", "contact"];
+const SECTION_IDS = ["top", "about", "skills", "services", "projects", "contact"];
 
 export function Header() {
   const { scrollY } = useScroll();

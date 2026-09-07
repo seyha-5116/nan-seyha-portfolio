@@ -3,6 +3,7 @@ import { About } from "@/components/about";
 import { Contact } from "@/components/contact";
 import { Hero } from "@/components/hero";
 import { Projects } from "@/components/projects";
+import { Services } from "@/components/services";
 import { Skills } from "@/components/skills";
 import { Ticker } from "@/components/ticker";
 import { getProjects } from "@/lib/projects";
@@ -22,6 +23,7 @@ export default async function Home() {
       <Ticker />
       <About />
       <Skills />
+      <Services />
       <Projects projects={projects} />
       <Contact />
     </>

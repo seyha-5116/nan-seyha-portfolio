@@ -52,7 +52,7 @@ export function Contact() {
       <SectionDivider />
       <div className="mx-auto w-full max-w-[1120px] px-4 py-24 sm:px-6 sm:py-32">
         <Reveal>
-          <SectionHeading index="04" label="Contact" />
+          <SectionHeading index="05" label="Contact" />
         </Reveal>
 
         <Reveal>

@@ -15,7 +15,7 @@ export function Projects({ projects }: { projects: ProjectSummary[] }) {
       <SectionDivider />
       <div className="mx-auto w-full max-w-[1120px] px-4 py-24 sm:px-6 sm:py-32">
         <Reveal>
-          <SectionHeading index="03" label="Selected work" />
+          <SectionHeading index="04" label="Selected work" />
         </Reveal>
 
         {projects.length > 0 ? (

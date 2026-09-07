@@ -149,3 +149,59 @@ export function FacebookIcon(props: IconProps) {
     </FillIcon>
   );
 }
+
+export function PencilIcon(props: IconProps) {
+  return (
+    <StrokeIcon {...props}>
+      <path d="M12 20h9" />
+      <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+    </StrokeIcon>
+  );
+}
+
+export function PaletteIcon(props: IconProps) {
+  return (
+    <StrokeIcon {...props}>
+      <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.83-.44-1.12-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h1.99c3.06 0 5.57-2.5 5.57-5.55C21.97 6.01 17.46 2 12 2Z" />
+      <path d="M8.5 8.5h.01M12 6h.01M15.5 8h.01M13.5 13.5h.01" />
+    </StrokeIcon>
+  );
+}
+
+export function CursorIcon(props: IconProps) {
+  return (
+    <StrokeIcon {...props}>
+      <path d="M4.04 4.69a.5.5 0 0 1 .65-.65l16 6.5a.5.5 0 0 1-.06.95l-6.12 1.58a2 2 0 0 0-1.44 1.44l-1.58 6.12a.5.5 0 0 1-.94.06Z" />
+    </StrokeIcon>
+  );
+}
+
+export function CodeIcon(props: IconProps) {
+  return (
+    <StrokeIcon {...props}>
+      <path d="m16 18 6-6-6-6" />
+      <path d="m8 6-6 6 6 6" />
+    </StrokeIcon>
+  );
+}
+
+export function DatabaseIcon(props: IconProps) {
+  return (
+    <StrokeIcon {...props}>
+      <ellipse cx="12" cy="5" rx="9" ry="3" />
+      <path d="M3 5v14a9 3 0 0 0 18 0V5" />
+      <path d="M3 12a9 3 0 0 0 18 0" />
+    </StrokeIcon>
+  );
+}
+
+export function BotIcon(props: IconProps) {
+  return (
+    <StrokeIcon {...props}>
+      <rect x="4" y="9" width="16" height="11" rx="2.5" />
+      <path d="M12 9V5" />
+      <circle cx="12" cy="4" r="1.2" />
+      <path d="M9 13h.01M15 13h.01" />
+    </StrokeIcon>
+  );
+}
