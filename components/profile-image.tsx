@@ -15,7 +15,7 @@ const SIZES: Record<SizeKey, { fig: string; initials: string }> = {
     initials: "text-6xl",
   },
   xl: {
-    fig: "h-72 w-72 sm:h-80 sm:w-80 lg:h-96 lg:w-96",
+    fig: "h-80 w-80 sm:h-96 sm:w-96 lg:h-[30rem] lg:w-[30rem]",
     initials: "text-7xl",
   },
 };
@@ -42,7 +42,7 @@ export function ProfileImage({ size = "sm", priority = false }: { size?: SizeKey
             alt="Portrait of Nan Seyha"
             fill
             priority={priority}
-            sizes={size === "xl" ? "24rem" : size === "lg" ? "18rem" : "11rem"}
+            sizes={size === "xl" ? "30rem" : size === "lg" ? "18rem" : "11rem"}
             style={{ objectFit: "contain", objectPosition: "center" }}
             className="transition-transform duration-700 ease-out hover:scale-105"
             onError={() => setFailed(true)}
