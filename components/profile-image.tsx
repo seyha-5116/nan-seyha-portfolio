@@ -48,7 +48,7 @@ export function ProfileImage({ size = "sm", priority = false }: { size?: SizeKey
       className={`relative flex ${style.fig} flex-none items-center justify-center`}
     >
       <div
-        className={`relative overflow-hidden rounded-full bg-surface-2 ${style.fig}`}
+        className={`relative overflow-hidden rounded-full ${style.fig}`}
       >
         {src && !failed ? (
           <Image
