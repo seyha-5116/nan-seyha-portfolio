@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono, Sora } from "next/font/google";
 import { BackgroundFX } from "@/components/background-fx";
+import { CanvasCursor } from "@/components/canvas-cursor";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { ScrollProgress } from "@/components/scroll-progress";
@@ -71,6 +72,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col">
         <BackgroundFX />
+        <CanvasCursor />
         <ScrollProgress />
         <Header />
         <main className="relative z-10 flex-1">{children}</main>

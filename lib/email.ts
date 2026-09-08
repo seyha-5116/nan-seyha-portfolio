@@ -4,6 +4,13 @@ import type { ContactInput } from "@/lib/validation";
 export const CONTACT_TO_EMAIL = "nanseyha4@gmail.com";
 export const CONTACT_FROM_EMAIL = process.env.CONTACT_FROM ?? "onboarding@resend.dev";
 
+let resendSingleton: Resend | null = null;
+
+function getResend(): Resend {
+  if (!resendSingleton) resendSingleton = new Resend(process.env.RESEND_API_KEY ?? "");
+  return resendSingleton;
+}
+
 export function hasEmailIntegration(): boolean {
   return Boolean(process.env.RESEND_API_KEY);
 }
@@ -52,7 +59,7 @@ export async function sendContactEmail(input: ContactInput): Promise<boolean> {
     return false;
   }
 
-  const resend = new Resend(apiKey);
+  const resend = getResend();
   const subject = `New portfolio message from ${input.name}`;
   const text = [
     `New message from your portfolio site (nan-seyha-portfolio.vercel.app)`,

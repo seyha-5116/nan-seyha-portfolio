@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useRef, useState } from "react";
+import { useActionState, useState } from "react";
 import { submitContactForm } from "@/app/actions/contact";
 import { SubmitButton } from "@/components/submit-button";
 import type { ContactFormState } from "@/lib/types";
@@ -10,17 +10,6 @@ const INITIAL_STATE: ContactFormState = {};
 export function ContactForm() {
   const [state, formAction] = useActionState(submitContactForm, INITIAL_STATE);
   const [fieldErrors, setFieldErrors] = useState<NonNullable<ContactFormState["fieldErrors"]>>({});
-
-  const alertedIdRef = useRef<string | null>(null);
-
-  useEffect(() => {
-    if (state.success && state.sentAt && state.sentAt !== alertedIdRef.current) {
-      alertedIdRef.current = state.sentAt;
-      window.alert(
-        `Message sent successfully!\n\nThank you, ${state.name}. Your message has been delivered to nanseyha4@gmail.com.\n\n"${state.message}"`,
-      );
-    }
-  }, [state]);
 
   if (state.success) {
     return (

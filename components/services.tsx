@@ -14,6 +14,7 @@ import {
 import { Reveal } from "@/components/reveal";
 import { SectionDivider } from "@/components/section-divider";
 import { SectionHeading } from "@/components/section";
+import { chunk } from "@/lib/chunk";
 import { EASE } from "@/lib/motion";
 
 type ServiceIcon = (props: SVGProps<SVGSVGElement>) => React.ReactElement;
@@ -286,23 +287,56 @@ function ProcessStrip({ reduce }: { reduce: boolean | null }) {
       </Reveal>
 
       <div className="relative mt-8">
-        <div aria-hidden="true" className="absolute inset-x-0 top-[5px] h-px bg-line-strong" />
-        {!reduce ? (
-          <motion.span
-            aria-hidden="true"
-            className="absolute inset-x-0 top-[5px] h-px origin-left bg-gradient-to-r from-brass to-brass-bright"
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 1.1, ease: EASE }}
-          />
-        ) : null}
+        <div className="relative hidden md:block">
+          <div aria-hidden="true" className="absolute inset-x-0 top-[5px] h-px bg-line-strong" />
+          {!reduce ? (
+            <motion.span
+              aria-hidden="true"
+              className="absolute inset-x-0 top-[5px] h-px origin-left bg-gradient-to-r from-brass to-brass-bright"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 1.1, ease: EASE }}
+            />
+          ) : null}
 
-        <ol className="relative grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-4">
-          {PROCESS.map((step, index) => (
-            <ProcessStep key={step.title} step={step} index={index} reduce={reduce} />
+          <ol className="grid grid-cols-4">
+            {PROCESS.map((step, index) => (
+              <ProcessStep key={step.title} step={step} index={index} reduce={reduce} />
+            ))}
+          </ol>
+        </div>
+
+        <div className="space-y-12 md:hidden">
+          {chunk(PROCESS, 2).map((row, rowIndex) => (
+            <div key={rowIndex} className="relative">
+              <div
+                aria-hidden="true"
+                className="absolute left-[calc(25%-6px)] top-[5px] h-px w-[calc(50%+12px)] bg-line-strong"
+              />
+              {!reduce ? (
+                <motion.span
+                  aria-hidden="true"
+                  className="absolute left-[calc(25%-6px)] top-[5px] h-px w-[calc(50%+12px)] origin-left bg-gradient-to-r from-brass to-brass-bright"
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  viewport={{ once: true, amount: 0.6 }}
+                  transition={{ duration: 1, ease: EASE, delay: 0.1 + rowIndex * 0.15 }}
+                />
+              ) : null}
+              <ol className="grid grid-cols-2 gap-x-6">
+                {row.map((step, index) => (
+                  <ProcessStep
+                    key={step.title}
+                    step={step}
+                    index={rowIndex * 2 + index}
+                    reduce={reduce}
+                  />
+                ))}
+              </ol>
+            </div>
           ))}
-        </ol>
+        </div>
       </div>
     </div>
   );

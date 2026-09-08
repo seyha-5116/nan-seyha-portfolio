@@ -1,50 +1,15 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import {
-  motion,
-  useMotionTemplate,
-  useMotionValue,
-  useReducedMotion,
-  useSpring,
-} from "motion/react";
-
 const NOISE = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
 
 const GRID = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cpath fill='none' stroke='%23c9a15c' stroke-opacity='0.5' stroke-width='0.75' d='M96 0H0V96'/%3E%3C/svg%3E")`;
 
 const DUST = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 280 280'%3E%3Cg fill='%23c9a15c' fill-opacity='0.6'%3E%3Ccircle cx='32' cy='48' r='1'/%3E%3Ccircle cx='104' cy='12' r='1.4'/%3E%3Ccircle cx='176' cy='96' r='1'/%3E%3Ccircle cx='248' cy='40' r='1.2'/%3E%3Ccircle cx='64' cy='160' r='1'/%3E%3Ccircle cx='224' cy='184' r='1'/%3E%3Ccircle cx='128' cy='240' r='1.3'/%3E%3Ccircle cx='40' cy='248' r='1'/%3E%3Ccircle cx='256' cy='256' r='1'/%3E%3Ccircle cx='212' cy='128' r='0.9'/%3E%3Ccircle cx='88' cy='216' r='0.9'/%3E%3Ccircle cx='160' cy='272' r='1'/%3E%3C/g%3E%3C/svg%3E")`;
 
+/**
+ * BackgroundFX — static ambient background: base wash, aurora drift layers,
+ * a soft spotlight cone, fine grid, sparse warm dust, grain and edge
+ * vignette. All layers are pure CSS, so nothing reacts to the cursor.
+ */
 export function BackgroundFX() {
-  const reduce = useReducedMotion();
-  const [pointerEnabled, setPointerEnabled] = useState(false);
-
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const glowX = useSpring(mx, { stiffness: 110, damping: 24, mass: 0.6 });
-  const glowY = useSpring(my, { stiffness: 110, damping: 24, mass: 0.6 });
-  const cursorLight = useMotionTemplate`radial-gradient(900px circle at ${glowX}px ${glowY}px, rgba(201,161,92,0.07) 0%, rgba(201,161,92,0.025) 38%, rgba(201,161,92,0) 68%)`;
-
-  useEffect(() => {
-    if (reduce) return;
-    if (!window.matchMedia("(pointer: fine)").matches) return;
-
-    mx.set(window.innerWidth / 2);
-    my.set(window.innerHeight / 3);
-    const frame = requestAnimationFrame(() => setPointerEnabled(true));
-
-    const onMove = (event: PointerEvent) => {
-      mx.set(event.clientX);
-      my.set(event.clientY);
-    };
-
-    window.addEventListener("pointermove", onMove, { passive: true });
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("pointermove", onMove);
-    };
-  }, [mx, my, reduce]);
-
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       {/* Base wash */}
@@ -75,11 +40,6 @@ export function BackgroundFX() {
         className="absolute inset-0 opacity-[0.035] mix-blend-overlay"
         style={{ backgroundImage: NOISE, backgroundSize: "180px 180px" }}
       />
-
-      {/* Subtle cursor light on precise pointers */}
-      {!reduce && pointerEnabled ? (
-        <motion.div className="absolute inset-0" style={{ background: cursorLight }} />
-      ) : null}
 
       {/* Edge vignette for depth */}
       <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_45%,transparent_55%,rgba(0,0,0,0.55)_100%)]" />

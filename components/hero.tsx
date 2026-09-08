@@ -188,7 +188,8 @@ function Typewriter({ labels }: { labels: string[] }) {
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    const current = labels[index];
+    if (labels.length === 0) return;
+    const current = labels[index % labels.length];
 
     if (!deleting) {
       if (text === current) {

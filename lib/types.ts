@@ -1,5 +1,11 @@
 export type ProjectStatus = "LIVE" | "IN_DEVELOPMENT";
 
+export interface Step {
+  index: string;
+  title: string;
+  description: string;
+}
+
 export interface ProjectSummary {
   slug: string;
   name: string;

@@ -29,11 +29,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  console.info(
-    "[contact] Received form submission — name: %s, email: %s",
-    result.data.name,
-    result.data.email,
-  );
+  console.info("[contact] Received form submission.");
 
   const stored = await persistContactMessage(result.data);
   if (!stored.ok) {

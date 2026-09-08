@@ -36,16 +36,3 @@ export async function getProjects(): Promise<ProjectSummary[]> {
     return seedProjects;
   }
 }
-
-export async function getProjectBySlug(slug: string): Promise<ProjectSummary | null> {
-  const db = getPrisma();
-  if (!db) return seedProjects.find((p) => p.slug === slug) ?? null;
-  try {
-    const row = await db.project.findUnique({ where: { slug } });
-    if (!row) return null;
-    return toSummary(row);
-  } catch (error) {
-    console.warn("[projects] Database unreachable, falling back to seed data.", error);
-    return seedProjects.find((p) => p.slug === slug) ?? null;
-  }
-}

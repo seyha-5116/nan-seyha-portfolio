@@ -1,8 +1,6 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRightIcon } from "@/components/icons";
+import { ArrowRightIcon, ArrowUpRightIcon } from "@/components/icons";
 import { Reveal } from "@/components/reveal";
 import { TechIcon } from "@/components/tech-icons";
 import { SectionDivider } from "@/components/section-divider";
@@ -91,30 +89,37 @@ function ProjectCard({
           ))}
         </div>
 
-        <div className="mt-7 flex items-center justify-between border-t border-line pt-5">
-          {live && project.liveUrl ? (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 font-mono text-xs tracking-wide text-brass transition-colors hover:text-brass-bright"
-            >
-              View live
-              <ArrowUpRightIcon className="text-sm transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-            </a>
-          ) : (
-            <span className="font-mono text-xs text-muted">In active development</span>
-          )}
-          {project.repoUrl ? (
-            <a
-              href={project.repoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-mono text-xs text-muted transition-colors hover:text-brass"
-            >
-              Source
-            </a>
-          ) : null}
+        <div className="mt-7 flex items-center justify-between gap-3 border-t border-line pt-5">
+          <Link
+            href={`/projects/${project.slug}`}
+            className="group/cs inline-flex items-center gap-1.5 font-mono text-xs tracking-wide text-brass transition-colors hover:text-brass-bright"
+          >
+            Read case study
+            <ArrowRightIcon className="text-sm transition-transform group-hover/cs:translate-x-1" />
+          </Link>
+          <div className="flex items-center gap-4">
+            {live && project.liveUrl ? (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 font-mono text-xs text-muted transition-colors hover:text-brass"
+              >
+                View live
+                <ArrowUpRightIcon className="text-sm" />
+              </a>
+            ) : null}
+            {project.repoUrl ? (
+              <a
+                href={project.repoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-mono text-xs text-muted transition-colors hover:text-brass"
+              >
+                Source
+              </a>
+            ) : null}
+          </div>
         </div>
       </div>
     </article>
