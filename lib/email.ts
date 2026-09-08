@@ -1,5 +1,8 @@
 import { Resend } from "resend";
 import type { ContactInput } from "@/lib/validation";
+import { SITE_URL } from "@/lib/site";
+
+const SITE_HOSTNAME = new URL(SITE_URL).hostname;
 
 export const CONTACT_TO_EMAIL = "nanseyha4@gmail.com";
 export const CONTACT_FROM_EMAIL = process.env.CONTACT_FROM ?? "onboarding@resend.dev";
@@ -40,7 +43,7 @@ function buildHtml(input: ContactInput): string {
     `<body style="margin:0;padding:24px;background-color:#0a0a0c;font-family:Segoe UI,Arial,sans-serif;">`,
     `  <div style="max-width:560px;margin:0 auto;">`,
     `    <h2 style="margin:0 0 4px;color:#c9a15c;">New portfolio message</h2>`,
-    `    <p style="margin:0 0 24px;color:#9b99a3;font-size:13px;">from nan-seyha-portfolio.vercel.app</p>`,
+    `    <p style="margin:0 0 24px;color:#9b99a3;font-size:13px;">from ${SITE_HOSTNAME}</p>`,
     `    <table style="width:100%;border-collapse:collapse;background-color:#121216;border:1px solid #26262b;border-radius:12px;overflow:hidden;font-size:14px;color:#f2f0ea;">`,
     `      <tr><td style="padding:14px 18px;color:#9b99a3;border-bottom:1px solid #26262b;">Name</td><td style="padding:14px 18px;border-bottom:1px solid #26262b;"><strong>${name}</strong></td></tr>`,
     `      <tr><td style="padding:14px 18px;color:#9b99a3;border-bottom:1px solid #26262b;">Email</td><td style="padding:14px 18px;border-bottom:1px solid #26262b;"><a href="mailto:${email}" style="color:#c9a15c;">${email}</a></td></tr>`,
@@ -62,7 +65,7 @@ export async function sendContactEmail(input: ContactInput): Promise<boolean> {
   const resend = getResend();
   const subject = `New portfolio message from ${input.name}`;
   const text = [
-    `New message from your portfolio site (nan-seyha-portfolio.vercel.app)`,
+    `New message from your portfolio site (${SITE_HOSTNAME})`,
     ``,
     `Name: ${input.name}`,
     `Email: ${input.email}`,

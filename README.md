@@ -25,8 +25,11 @@ Key behaviours implemented to spec:
 
 - Fixed blueprint grid layer with scroll-linked parallax, masked so it fades toward the
   bottom of the hero.
-- Cursor-tracked brass glow (`clientX`/`clientY` → viewport-correct during scroll) with
-  `mix-blend-mode: screen`, eased via Motion `useSpring`.
+- Cursor-tracked brass glow: replaced by a custom additive-blend canvas cursor effect
+  (gold/brass spark trail + click burst/ripple) that works on fine and coarse pointers,
+  respects `prefers-reduced-motion`, and sits above cards via a fixed z-index layer.
+- Static ambient background (aurora glow, blueprint grid, dust, film grain, vignette)
+  rendered once with no per-frame JS.
 - Staggered hero load sequence, one-shot `whileInView` reveals, small spring hover
   micro-interactions, and a reduced-motion mode that disables the load stagger, parallax,
   glow loop, and scroll cue bobbing.
